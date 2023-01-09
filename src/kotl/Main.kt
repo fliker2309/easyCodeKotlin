@@ -1,54 +1,46 @@
 package kotl
 
+import kotlin.reflect.jvm.internal.impl.load.java.structure.JavaClass
+
 
 fun main(args: Array<String>) {
 
+    var x : Int = 5
+    (x as? String)?.length
 
-    val list = mutableListOf<String>()
-    list.add("one")
-    list.add("two")
-    list.addItem("one")
-    print(list.size)
+
+
 }
 
-private fun print(vararg args: String) {
-    for (string in args) {
-        println(string)
+fun max (a:Int, b:Int) = if (a > b) a else b
+
+fun checkNumber(x:Int){
+  when(x){
+      in 1..100 -> println("positive")
+      in -100..-1 -> println("negative")
+      else -> println("out of range")
+
+  }
+}
+
+fun check(x:Any?) = when(x){
+    is String -> print("it's a string")
+    is String? -> print("it's a string or null")
+    else -> print("unknown type")
+}
+
+fun chechy(x:Any){
+    print((x as String).isEmpty())
+}
+
+fun convertGrade(grade:Int){
+    when(grade){
+        5-> println("a")
+        4-> println("b")
+        3-> println("c")
+        2,1-> println("d")
+
+        else -> throw IllegalArgumentException("unknown grade")
     }
 }
 
-fun log(header: String, body: String = "", footer: String) {
-    if (header.isNotEmpty()) print(header)
-    if (body.isNotEmpty()) print(body)
-}
-
-private fun sum(a: Int, b: Int) = a + b
-
-class MyObject {
-    private val list = ArrayList<String>()
-
-    infix fun add(str: String) {
-        list.add(str)
-    }
-}
-
-fun <T> singletonList(`object`: T): List<T>{
-    val list = ArrayList<T>(1)
-    list.add(`object`)
-    return list
-}
-
-private tailrec fun printIt(str: String, times:Int){
-    if(times == 0)
-        println("done")
-    else {
-        println(str + times)
-        printIt(str, times -1)
-    }
-}
-
-fun <T> MutableList<T>.addItem(item:T){
-    if(!contains(item)){
-        add(item)
-    }
-}
