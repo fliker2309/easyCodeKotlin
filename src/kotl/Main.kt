@@ -5,18 +5,16 @@ import kotlin.reflect.jvm.internal.impl.load.java.structure.JavaClass
 
 fun main(args: Array<String>) {
 
-val repository = object : Repository{
-    override fun getData(): Result {
-        TODO("Not yet implemented")
-    }
-}
-    when(val result = repository.getData()){
-        is kotl.Result.Success -> print(result.data)
-        is kotl.Result.Error -> throw IllegalArgumentException(result.message)
+    val array = arrayOf(1,"2", 3, "4")
+    array.forEachIndexed{ index,data ->
+        if(data is String)
+            print(index)
     }
 
 
 }
+
+
 
 sealed class Result{
     class Success(val data:Int) : Result()
