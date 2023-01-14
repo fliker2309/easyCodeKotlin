@@ -8,29 +8,14 @@ import java.net.URL
 import java.util.logging.StreamHandler
 
 fun main(args: Array<String>) {
-
-val url="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_10MG.mp4"
-
-    Streams(BufferedInputStream(URL(url).openStream()),
-    File("someVidoe.mp4").outputStream()){inputStream, outputStream ->
-        inputStream.copyTo(outputStream)
-    }.start()
+val source = listOf(-4,2,-10,0,10)
+  print(getNewList(source, "num"))
+    print(listOf(1,2,3,4,5).subList(1,3))
 
 
 
 
 }
 
-
-
-class Streams(
-    private val inStream:InputStream,
-    private val outStream:OutputStream,
-    private val streamHandler: (InputStream, OutputStream) -> Unit
-){
-   fun start () = inStream.use {
-       outStream.use {
-           streamHandler.invoke(inStream, outStream)
-       }
-   }
-}
+fun getNewList(source: List<Int>, prefix: String) =
+    source.filter { it>0 }.map { prefix + it }
