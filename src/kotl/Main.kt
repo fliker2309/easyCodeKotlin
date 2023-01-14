@@ -1,66 +1,36 @@
 package kotl
 
-import kotlin.reflect.jvm.internal.impl.load.java.structure.JavaClass
-
+import java.io.BufferedInputStream
+import java.io.File
+import java.io.InputStream
+import java.io.OutputStream
+import java.net.URL
+import java.util.logging.StreamHandler
 
 fun main(args: Array<String>) {
 
+val url="https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_10MG.mp4"
 
-    val array = Array(5) { i -> i + 1 }
-    array.forEach { print(it) }
+    Streams(BufferedInputStream(URL(url).openStream()),
+    File("someVidoe.mp4").outputStream()){inputStream, outputStream ->
+        inputStream.copyTo(outputStream)
+    }.start()
 
-    println("")
-    val array2 = Array(5) { 0 }
-    array2.forEach { print(it) }
 
-    val array3 = Array(5) { 0 }
-    array3[2] = 4
-    array3.forEach { print(it) }
 
-    val differentArray = arrayOf(1, "2", 3, "4")
-    differentArray.forEach {
-        if (it is String) print(it)
-    }
-
-    val anotherArray = arrayOf(1, "2", 3, "4")
-    anotherArray.plus("new").forEach {
-        if (it is String) print(it)
-    }
-
-}
-
-interface A {
-
-    val data: String
-    fun doOne() {
-        print(data)
-    }
-
-}
-
-interface B {
-    val data: String
-    fun doOne() {
-        print(data + data)
-    }
-}
-
-class C(override val data: String) : A, B {
-    override fun doOne() {
-        super<A>.doOne()
-        super<B>.doOne()
-        println("do one C $data")
-    }
 
 }
 
 
-sealed class Result {
-    class Success(val data: Int) : Result()
-    class Error(val message: String) : Result()
-}
 
-interface Repository {
-    fun getData(): Result
+class Streams(
+    private val inStream:InputStream,
+    private val outStream:OutputStream,
+    private val streamHandler: (InputStream, OutputStream) -> Unit
+){
+   fun start () = inStream.use {
+       outStream.use {
+           streamHandler.invoke(inStream, outStream)
+       }
+   }
 }
-
