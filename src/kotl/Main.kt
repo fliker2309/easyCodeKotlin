@@ -4,9 +4,28 @@ import kotlin.reflect.jvm.internal.impl.load.java.structure.JavaClass
 
 
 fun main(args: Array<String>) {
-val x = C("Hello")
 
-print(x.doOne())
+
+    val array = Array(5) { i -> i + 1 }
+    array.forEach { print(it) }
+
+    println("")
+    val array2 = Array(5) { 0 }
+    array2.forEach { print(it) }
+
+    val array3 = Array(5) { 0 }
+    array3[2] = 4
+    array3.forEach { print(it) }
+
+    val differentArray = arrayOf(1, "2", 3, "4")
+    differentArray.forEach {
+        if (it is String) print(it)
+    }
+
+    val anotherArray = arrayOf(1, "2", 3, "4")
+    anotherArray.plus("new").forEach {
+        if (it is String) print(it)
+    }
 
 }
 
@@ -20,13 +39,13 @@ interface A {
 }
 
 interface B {
-    val data:String
+    val data: String
     fun doOne() {
-        print(data+data)
+        print(data + data)
     }
 }
 
-class C(override val data:String): A,B{
+class C(override val data: String) : A, B {
     override fun doOne() {
         super<A>.doOne()
         super<B>.doOne()
@@ -34,8 +53,6 @@ class C(override val data:String): A,B{
     }
 
 }
-
-
 
 
 sealed class Result {
